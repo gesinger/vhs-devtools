@@ -1,0 +1,6 @@
+{
+  "manifest_version": 2,
+  "name": "VHS",
+  "version": "0.0.1",
+  "devtools_page": "devtools.html"
+}
