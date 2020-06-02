@@ -13,8 +13,6 @@ import Box from '@material-ui/core/Box';
 // TODO width flex
 const useStyles = makeStyles((theme) => ({
   table: {
-    backgroundColor: theme.palette.background.paper,
-    color: 'white',
     maxWidth: 300
   }
 }));
@@ -39,6 +37,7 @@ const renderMediaBufferedRow = (player, mediaType) => {
 export default function TopLevelInfo(props) {
   const classes = useStyles();
   const { player } = props;
+  const durationDisplay = player.duration ? player.duration.toFixed(2) : '';
 
   return (
     <TableContainer component={Paper}>
@@ -54,7 +53,7 @@ export default function TopLevelInfo(props) {
           </TableRow>
           <TableRow>
             <TableCell>Duration</TableCell>
-            <TableCell align="right">{player.duration.toFixed(2)}</TableCell>
+            <TableCell align="right">{durationDisplay}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>Seekable</TableCell>

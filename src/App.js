@@ -15,7 +15,11 @@ const theme = createMuiTheme({
 export default function App(props) {
   const [players, setPlayers] = useState([]);
 
-  const updatePlayers = (updatedPlayers) => {
+  const updatePlayers = (updatedPlayers, isException) => {
+    if (isException) {
+      console.error(isException);
+      return;
+    }
     setPlayers(updatedPlayers)
   };
 

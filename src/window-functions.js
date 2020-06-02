@@ -50,6 +50,17 @@ export const getPlayers = () => {
       playerInfo.audioBuffered = timeRangesToArray(sourceUpdater.audioBuffer.buffered);
     }
 
+    const masterPlaylistLoader = mpc.masterPlaylistLoader_;
+    const media = masterPlaylistLoader.media();
+
+    if (media) {
+      playerInfo.selectedPlaylist = {
+        bandwidth: media.attributes.BANDWIDTH,
+        codecs: media.attributes.CODECS,
+        resolution: media.attributes.RESOLUTION
+      };
+    }
+
     return playerInfo;
   });
 };
