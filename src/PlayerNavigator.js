@@ -6,13 +6,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: 224,
   },
   tabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
 }));
 
@@ -21,8 +18,8 @@ export default function PlayerNavigator(props) {
   const classes = useStyles();
   const [selectedPlayerId, setSelectedPlayerId] = useState(0);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const handleChange = (event, playerId) => {
+    setSelectedPlayerId(playerId);
   };
 
   const renderTabs = () => {
@@ -32,8 +29,6 @@ export default function PlayerNavigator(props) {
 
     return (
       <Tabs
-        orientation="vertical"
-        variant="scrollable"
         onChange={handleChange}
         value={selectedPlayerId}
         className={classes.tabs}
