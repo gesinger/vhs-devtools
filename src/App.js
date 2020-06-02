@@ -1,29 +1,43 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import Tabs from '@material-ui/core/Tabs';
 import PlayerNavigator from './PlayerNavigator.js'
+import getPlayers from './window-functions';
 
-// TODO prefers colorscheme dark
+const REFRESH_RATE = 0.25 * 1000;
+
+// TODO check colorscheme preferece
 const theme = createMuiTheme({
-	palette: {
-		type: 'dark'
-	},
+  palette: {
+    type: 'dark'
+  },
 });
 
-class App extends Component {
-  constructor(props) {
-    super(props)
+export default function App(props) {
+  const [players, setPlayers] = useState([]);
 
-    this.state = { players: this.props.players };
+  const updatePlayers = (updatedPlayers) => {
+    setPlayers(updatedPlayers)
+  };
+
+  const inspectForUpdatedPlayers = () => {
+    chrome.devtools.inspectedWindow.eval(getPlayers, updatePlayers);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(inspectForUpdatedPlayers, REFRESH_RATE);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [inspectForUpdatedPlayers, REFRESH_RATE]);
+
+  if (!players.length) {
+    return null;
   }
 
-  render() {
-    return(
-      <ThemeProvider theme={theme}>
-        <PlayerNavigator players={this.state.players} />
-      </ThemeProvider>
-    );
-  }
-}
-
-export default App;
+  return (
+    <ThemeProvider theme={theme}>
+      <PlayerNavigator players={players} />
+    </ThemeProvider>
+  );
+};

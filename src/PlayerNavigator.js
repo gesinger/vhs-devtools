@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlayerPanel from './PlayerPanel';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -19,14 +19,14 @@ const useStyles = makeStyles((theme) => ({
 export default function PlayerNavigator(props) {
   const { players } = props;
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [selectedPlayerId, setSelectedPlayerId] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const renderTabs = () => {
-    if (!players || players.length === 1) {
+    if (players.length < 2) {
       return null;
     }
 
@@ -35,7 +35,7 @@ export default function PlayerNavigator(props) {
         orientation="vertical"
         variant="scrollable"
         onChange={handleChange}
-        value={value}
+        value={selectedPlayerId}
         className={classes.tabs}
       >
         {players.map((player, index) => (
@@ -49,7 +49,7 @@ export default function PlayerNavigator(props) {
     <div className={classes.root}>
       {renderTabs()}
 
-      <PlayerPanel player={players[value]} />
+      <PlayerPanel player={players[selectedPlayerId]} />
     </div>
   );
 };
