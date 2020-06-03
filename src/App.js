@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import PlayerNavigator from './PlayerNavigator.js'
 import getPlayers from './window-functions';
 
-const REFRESH_RATE = 0.25 * 1000;
+const REFRESH_RATE = 1 * 1000;
 
 // TODO check colorscheme preferece
 const theme = createMuiTheme({
@@ -18,6 +19,9 @@ export default function App(props) {
   const updatePlayers = (updatedPlayers, isException) => {
     if (isException) {
       console.error(isException);
+      return;
+    }
+    if (JSON.stringify(players) === JSON.stringify(updatedPlayers)) {
       return;
     }
     setPlayers(updatedPlayers)
@@ -41,6 +45,7 @@ export default function App(props) {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <PlayerNavigator players={players} />
     </ThemeProvider>
   );

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
-import PlaylistPanel from './PlaylistPanel';
+import Box from '@material-ui/core/Box'; import { makeStyles } from '@material-ui/core/styles';
+import SegmentsPanel from './SegmentsPanel';
+import PlaylistsPanel from './PlaylistsPanel';
 
 function TabPanel(props) {
   const { children, selectedIndex, index, ...other } = props;
@@ -47,15 +47,21 @@ export default function ToolNavigator(props) {
         value={selectedToolIndex}
         className={classes.tabs}
       >
-        <Tab label="Segments" key={0} />
-        <Tab label="Playlist" key={1} />
+        <Tab label="Playlists" key={0} />
+        <Tab label="Segments" key={1} />
+        <Tab label="Source Buffers" key={2} />
       </Tabs>
       <div>
         <TabPanel selectedIndex={selectedToolIndex} index={0}>
-          <p>Segments</p>
+          <PlaylistsPanel
+            mainPlaylist={player.mainPlaylist}
+            audioPlaylist={player.audioPlaylist} />
         </TabPanel>
         <TabPanel selectedIndex={selectedToolIndex} index={1}>
-          <PlaylistPanel playlist={player.selectedPlaylist} />
+          <SegmentsPanel player={player} />
+        </TabPanel>
+        <TabPanel selectedIndex={selectedToolIndex} index={2}>
+          Source Buffers
         </TabPanel>
       </div>
     </div>

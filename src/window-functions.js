@@ -22,6 +22,40 @@ export const getPlayers = () => {
     return timeRangesList;
   };
 
+  const getPlaylistInfo = (playlist) => {
+    const playlistInfo = {
+      bandwidth: playlist.attributes.BANDWIDTH,
+      codecs: playlist.attributes.CODECS,
+      resolution: playlist.attributes.RESOLUTION,
+      targetDuration: playlist.targetDuration,
+      segments: []
+    };
+
+    const segmentInfoArr = [];
+
+    for (let i = 0; i < playlist.segments.length; i++) {
+      const segment = playlist.segments[i];
+
+      if (!playlistInfo.maxDuration || segment.duration > playlistInfo.maxDuration) {
+        playlistInfo.maxDuration = segment.duration;
+      }
+      if (!playlistInfo.minDuration || segment.duration < playlistInfo.minDuration) {
+        playlistInfo.minDuration = segment.duration;
+      }
+
+      playlistInfo.segments.push({
+        duration: segment.duration,
+        start: segment.start,
+        end: segment.end,
+        timeline: segment.timeline,
+        resolvedUri: segment.resolvedUri,
+        mediaIndex: i
+      });
+    }
+
+    return playlistInfo;
+  };
+
   if (!window || !window.videojs || !window.videojs.players) {
     return {};
   }
@@ -50,15 +84,17 @@ export const getPlayers = () => {
       playerInfo.audioBuffered = timeRangesToArray(sourceUpdater.audioBuffer.buffered);
     }
 
-    const masterPlaylistLoader = mpc.masterPlaylistLoader_;
-    const media = masterPlaylistLoader.media();
+    const mainSegmentLoader = mpc.mainSegmentLoader_;
+    const audioSegmentLoader = mpc.audioSegmentLoader_;
+    const mainPlaylist = mainSegmentLoader.playlist_;
+    const audioPlaylist = audioSegmentLoader.playlist_;
+    const isAudioActive = mpc.mediaTypes_.AUDIO.activePlaylistLoader;
 
-    if (media) {
-      playerInfo.selectedPlaylist = {
-        bandwidth: media.attributes.BANDWIDTH,
-        codecs: media.attributes.CODECS,
-        resolution: media.attributes.RESOLUTION
-      };
+    if (mainPlaylist) {
+      playerInfo.mainPlaylist = getPlaylistInfo(mainPlaylist);
+    }
+    if (isAudioActive && audioPlaylist) {
+      playerInfo.audioPlaylist = getPlaylistInfo(audioPlaylist);
     }
 
     return playerInfo;

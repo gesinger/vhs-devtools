@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { timeRangesString } from './ui-utils';
 import Table from '@material-ui/core/Table';
@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
-// TODO why do we have to change font color
 // TODO width flex
 const useStyles = makeStyles((theme) => ({
   table: {

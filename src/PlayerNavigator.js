@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PlayerPanel from './PlayerPanel';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import AppBar from '@material-ui/core/AppBar';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-  },
   tabs: {
     borderBottom: `1px solid ${theme.palette.divider}`,
-  },
+  }
 }));
 
 export default function PlayerNavigator(props) {
@@ -42,10 +38,10 @@ export default function PlayerNavigator(props) {
   }
 
   return (
-    <AppBar className={classes.root}>
+    <div>
       {renderTabs()}
 
       <PlayerPanel player={players[selectedPlayerId]} />
-    </AppBar>
+    </div>
   );
 };
