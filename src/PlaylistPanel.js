@@ -21,7 +21,7 @@ export default function PlaylistPanel(props) {
       <TableContainer component={Paper}>
         <Table size="small">
           <TableBody>
-            {playlist.bandiwdth &&
+            {playlist.bandwidth &&
               <TableRow>
                 <TableCell>Bandwidth</TableCell>
                 <TableCell align="right">{playlist.bandwidth}</TableCell>

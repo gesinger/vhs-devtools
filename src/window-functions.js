@@ -77,11 +77,19 @@ export const getPlayers = () => {
     const mpc = player.vhs.masterPlaylistController_;
     const sourceUpdater = mpc.mainSegmentLoader_.sourceUpdater_;
 
+    playerInfo.sourceBuffers = {};
+
     if (sourceUpdater.videoBuffer) {
       playerInfo.videoBuffered = timeRangesToArray(sourceUpdater.videoBuffer.buffered);
+      playerInfo.sourceBuffers.video = {
+        timestampOffset: sourceUpdater.videoBuffer.timestampOffset
+      };
     }
     if (sourceUpdater.audioBuffer) {
       playerInfo.audioBuffered = timeRangesToArray(sourceUpdater.audioBuffer.buffered);
+      playerInfo.sourceBuffers.audio = {
+        timestampOffset: sourceUpdater.audioBuffer.timestampOffset
+      };
     }
 
     const mainSegmentLoader = mpc.mainSegmentLoader_;
