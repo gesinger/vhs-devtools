@@ -26,7 +26,7 @@ export default function SegmentsPanel(props) {
 
   const selectedPlaylist = player[`${selectedPlaylistType.toLowerCase()}Playlist`];
   const segmentsWithTimes = selectedPlaylist.segments.filter(
-    (segment) => segment.start && segment.end
+    (segment) => typeof segment.start === 'number' && typeof segment.end === 'number'
   );
 
   return (
