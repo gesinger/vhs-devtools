@@ -9,7 +9,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 
-// TODO width flex
 const useStyles = makeStyles((theme) => ({
   table: {
     maxWidth: 300
