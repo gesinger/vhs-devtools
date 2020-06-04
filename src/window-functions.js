@@ -43,14 +43,20 @@ export const getPlayers = () => {
         playlistInfo.minDuration = segment.duration;
       }
 
-      playlistInfo.segments.push({
+      const segmentInfo = {
         duration: segment.duration,
         start: segment.start,
         end: segment.end,
         timeline: segment.timeline,
         resolvedUri: segment.resolvedUri,
         mediaIndex: i
-      });
+      };
+
+      if (segment.byterange) {
+        segmentInfo.byterange = segment.byterange;
+      }
+
+      playlistInfo.segments.push(segmentInfo);
     }
 
     return playlistInfo;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SegmentsList from './SegmentsList';
-import SegmentRequestInfo from './SegmentRequestInfo';
+import MatchingSegmentRequestsInfo from './MatchingSegmentRequestsInfo';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -16,6 +16,11 @@ export default function SegmentsPanel(props) {
   const [showOnlyLoaded, setShowOnlyLoaded] = useState(false);
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(null);
 
+  useEffect(() => {
+    setSelectedPlaylistType('Main');
+    setSelectedSegmentIndex(null);
+  }, [player]);
+
   const handlePlaylistSelection = (event) => {
     setSelectedPlaylistType(event.target.value);
   };
@@ -25,6 +30,13 @@ export default function SegmentsPanel(props) {
   };
 
   const selectedPlaylist = player[`${selectedPlaylistType.toLowerCase()}Playlist`];
+
+  if (!selectedPlaylist) {
+    // player has switched but component has not yet re-rendered
+    // a re-render will happen after this return
+    return null;
+  }
+
   const segmentsWithTimes = selectedPlaylist.segments.filter(
     (segment) => typeof segment.start === 'number' && typeof segment.end === 'number'
   );
@@ -67,7 +79,7 @@ export default function SegmentsPanel(props) {
         </Box>
         {typeof selectedSegmentIndex === 'number' && (
           <Box>
-            <SegmentRequestInfo
+            <MatchingSegmentRequestsInfo
               segment={selectedPlaylist.segments[selectedSegmentIndex]}
             />
           </Box>
