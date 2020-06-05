@@ -1,4 +1,7 @@
 {
+  "name": "vhs-devtools",
+  "version": "0.0.1",
+  "description": "A Chrome DevTools extension for videojs/http-streaming",
   "scripts": {
     "build": "webpack"
   },
