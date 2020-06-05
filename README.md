@@ -1,6 +1,7 @@
 # vhs-devtools
 
-A [Chrome DevTools Extension](https://developer.chrome.com/extensions/devtools) for VHS.
+A [Chrome DevTools Extension](https://developer.chrome.com/extensions/devtools) for
+debugging [videojs/http-streaming](https://github.com/videojs/http-streaming).
 
 ## Building
 
@@ -18,4 +19,4 @@ First build, then:
 * Click "Load unpacked"
 * Navigate to repo directory and select it
 
-The tool will appear as VHS within DevTools
+The tool will appear as VHS within DevTools.
