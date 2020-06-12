@@ -20,6 +20,7 @@ export default function SegmentInfo(props) {
   const { segment } = props;
 
   const hasTimes = typeof segment.start === 'number' && typeof segment.end == 'number';
+  const actualDuration = hasTimes ? segment.end - segment.start : null;
 
   return (
     <Card variant="outlined" className={`${hasTimes ? classes.hasTimes : ''}`}>
@@ -34,9 +35,15 @@ export default function SegmentInfo(props) {
           <Table size="small">
             <TableBody>
               <TableRow>
-                <TableCell>duration</TableCell>
+                <TableCell>duration (reported)</TableCell>
                 <TableCell align="right">{segment.duration.toFixed(3)}</TableCell>
               </TableRow>
+              {actualDuration && (
+                <TableRow>
+                  <TableCell>duration (actual)</TableCell>
+                  <TableCell align="right">{actualDuration.toFixed(3)}</TableCell>
+                </TableRow>
+              )}
               <TableRow>
                 <TableCell>timeline</TableCell>
                 <TableCell align="right">{segment.timeline}</TableCell>
