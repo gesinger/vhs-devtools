@@ -13,7 +13,7 @@ import Box from '@material-ui/core/Box';
 export default function SegmentsPanel(props) {
   const { player } = props;
   const [selectedPlaylistType, setSelectedPlaylistType] = useState('Main');
-  const [showOnlyLoaded, setShowOnlyLoaded] = useState(false);
+  const [showOnlyLoaded, setShowOnlyLoaded] = useState(true);
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(null);
 
   useEffect(() => {
