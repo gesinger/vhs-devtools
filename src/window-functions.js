@@ -75,12 +75,13 @@ export const getPlayers = () => {
       buffered: timeRangesToArray(player.buffered()),
       seekable: timeRangesToArray(player.seekable())
     };
+    const vhs = player.tech(true).vhs;
 
-    if (!player.vhs) {
+    if (!vhs) {
       return playerInfo;
     }
 
-    const mpc = player.vhs.masterPlaylistController_;
+    const mpc = vhs.masterPlaylistController_;
     const sourceUpdater = mpc.mainSegmentLoader_.sourceUpdater_;
 
     playerInfo.sourceBuffers = {};
