@@ -46,7 +46,12 @@ export default function SourceRequestsPanel(props) {
 
       {selectedRequestJson && (
         <Box>
-          <ReactJson src={selectedRequestJson} theme="monokai" />
+          <ReactJson
+            src={selectedRequestJson}
+            theme="monokai"
+            name={false}
+            displayDataTypes={false}
+          />
         </Box>
       )}
       {selectedRequest && !isXml && (
