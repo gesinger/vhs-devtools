@@ -10,6 +10,11 @@ import Box from '@material-ui/core/Box';
 
 export default function PlaylistPanel(props) {
   const { playlist, playlistType } = props;
+
+  if (!playlist) {
+    return null;
+  }
+
   const width = playlist.resolution && playlist.resolution.width;
   const height = playlist.resolution && playlist.resolution.ehgith;
 

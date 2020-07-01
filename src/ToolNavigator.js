@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box'; import { makeStyles } from '@material-u
 import SegmentsPanel from './SegmentsPanel';
 import PlaylistsPanel from './PlaylistsPanel';
 import SourceBuffersPanel from './SourceBuffersPanel';
+import SourceRequestsPanel from './SourceRequestsPanel';
 
 function TabPanel(props) {
   const { children, selectedIndex, index, ...other } = props;
@@ -51,6 +52,7 @@ export default function ToolNavigator(props) {
         <Tab label="Playlists" key={0} />
         <Tab label="Segments" key={1} />
         <Tab label="Source Buffers" key={2} />
+        <Tab label="Source Requests" key={3} />
       </Tabs>
       <div>
         <TabPanel selectedIndex={selectedToolIndex} index={0}>
@@ -63,6 +65,9 @@ export default function ToolNavigator(props) {
         </TabPanel>
         <TabPanel selectedIndex={selectedToolIndex} index={2}>
           <SourceBuffersPanel sourceBuffers={player.sourceBuffers} />
+        </TabPanel>
+        <TabPanel selectedIndex={selectedToolIndex} index={3}>
+          <SourceRequestsPanel requests={player.sourceRequests} />
         </TabPanel>
       </div>
     </div>

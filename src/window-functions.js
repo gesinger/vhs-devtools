@@ -73,7 +73,8 @@ export const getPlayers = () => {
       currentTime: player.currentTime(),
       duration: player.duration(),
       buffered: timeRangesToArray(player.buffered()),
-      seekable: timeRangesToArray(player.seekable())
+      seekable: timeRangesToArray(player.seekable()),
+      src: player.src()
     };
     const vhs = player.tech(true).vhs;
 
