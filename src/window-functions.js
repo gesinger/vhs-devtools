@@ -113,6 +113,15 @@ export const getPlayers = () => {
       playerInfo.audioPlaylist = getPlaylistInfo(audioPlaylist);
     }
 
+    const masterPlaylistLoader = mpc.masterPlaylistLoader_;
+    const isDash = mpc.sourceType_ === 'dash';
+    const playlistLoaderSrcUrl = masterPlaylistLoader.srcUrl;
+
+    // handle DASH Location updates
+    if (masterPlaylistLoader && isDash && playlistLoaderSrcUrl !== playerInfo.src) {
+      playerInfo.src = playlistLoaderSrcUrl;
+    }
+
     return playerInfo;
   });
 };
