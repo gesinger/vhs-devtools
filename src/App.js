@@ -43,18 +43,27 @@ export default function App(props) {
         return;
       }
 
+      const request = result.request;
+      const response = result.response;
+
       players.forEach((player) => {
-        if (player.src !== result.request.url) {
+        if (request.method !== 'GET') {
           return;
         }
 
-        if (result.request.method !== 'GET') {
+        let probablySourceRequest = false;
+
+        if (player.isShaka && response.content.mimeType === 'application/dash+xml') {
+          probablySourceRequest = true;
+        }
+
+        if (player.src !== request.url && !probablySourceRequest) {
           return;
         }
 
         result.getContent((contentResult) => {
           setSourceRequests(sourceRequests.concat([{
-            url: result.request.url,
+            url: request.url,
             content: isBase64Encoded(contentResult) ? window.atob(contentResult) :
               contentResult,
             started: new Date(result.startedDateTime)
@@ -78,7 +87,11 @@ export default function App(props) {
   }
 
   players.forEach((player) => {
-    const matchingSourceRequests =
+    // Shaka doesn't yet have a way for us to access updated MPD locations. As a
+    // workaround, allow any matching source requests to be used. Although this can be a
+    // problem when there are multiple players on the page, for the most part it won't
+    // matter too much.
+    const matchingSourceRequests = player.isShaka ? sourceRequests :
       sourceRequests.filter((request) => request.url === player.src);
 
     player.sourceRequests = matchingSourceRequests;

@@ -62,6 +62,12 @@ export const getPlayers = () => {
     return playlistInfo;
   };
 
+  const addShakaPlayerInfo = (shakaPlayer, playerInfo) => {
+    playerInfo.isShaka = true;
+
+    return playerInfo;
+  };
+
   if (!window || !window.videojs || !window.videojs.players) {
     return {};
   }
@@ -79,6 +85,9 @@ export const getPlayers = () => {
     const vhs = player.tech(true).vhs;
 
     if (!vhs) {
+      if (player.dash && player.dash.shakaPlayer) {
+        return addShakaPlayerInfo(player.dash.shakaPlayer, playerInfo);
+      }
       return playerInfo;
     }
 
