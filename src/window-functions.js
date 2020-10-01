@@ -68,6 +68,12 @@ export const getPlayers = () => {
     return playerInfo;
   };
 
+  const addDashjsPlayerInfo = (dashjsMediaPlayer, playerInfo) => {
+    playerInfo.isDashjs = true;
+
+    return playerInfo;
+  };
+
   if (!window || !window.videojs || !window.videojs.players) {
     return {};
   }
@@ -87,6 +93,9 @@ export const getPlayers = () => {
     if (!vhs) {
       if (player.dash && player.dash.shakaPlayer) {
         return addShakaPlayerInfo(player.dash.shakaPlayer, playerInfo);
+      }
+      if (player.dash && player.dash.mediaPlayer) {
+        return addDashjsPlayerInfo(player.dash.mediaPlayer, playerInfo);
       }
       return playerInfo;
     }

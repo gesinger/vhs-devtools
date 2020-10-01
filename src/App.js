@@ -53,7 +53,10 @@ export default function App(props) {
 
         let probablySourceRequest = false;
 
-        if (player.isShaka && response.content.mimeType === 'application/dash+xml') {
+        if (
+          response.content.mimeType === 'application/dash+xml' &&
+          (player.isShaka || player.isDashjs)
+        ) {
           probablySourceRequest = true;
         }
 
@@ -87,11 +90,11 @@ export default function App(props) {
   }
 
   players.forEach((player) => {
-    // Shaka doesn't yet have a way for us to access updated MPD locations. As a
+    // Shaka and Dash.js don't yet have a way for us to access updated MPD locations. As a
     // workaround, allow any matching source requests to be used. Although this can be a
     // problem when there are multiple players on the page, for the most part it won't
     // matter too much.
-    const matchingSourceRequests = player.isShaka ? sourceRequests :
+    const matchingSourceRequests = player.isShaka || player.isDashjs ? sourceRequests :
       sourceRequests.filter((request) => request.url === player.src);
 
     player.sourceRequests = matchingSourceRequests;
