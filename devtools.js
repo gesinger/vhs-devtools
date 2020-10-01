@@ -1,1 +1,1 @@
-chrome.devtools.panels.create('VHS', 'logo.png', 'panel.html');
+(chrome || browser).devtools.panels.create('VHS', 'logo.png', 'panel.html');

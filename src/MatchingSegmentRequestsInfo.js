@@ -12,7 +12,7 @@ export default function MatchingSegmentRequestsInfo(props) {
   const [hasNoMatch, setHasNoMatch] = useState(null);
 
   useEffect(() => {
-    chrome.devtools.network.getHAR((result) => {
+    (chrome || browser).devtools.network.getHAR((result) => {
       const entries = result.entries;
 
       const matchingEntries = entries.filter((entry) => {

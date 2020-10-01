@@ -34,7 +34,7 @@ export default function App(props) {
   };
 
   const inspectForUpdatedPlayers = () => {
-    chrome.devtools.inspectedWindow.eval(getPlayers, updatePlayers);
+    (chrome || browser).devtools.inspectedWindow.eval(getPlayers, updatePlayers);
   };
 
   useEffect(() => {
@@ -75,12 +75,12 @@ export default function App(props) {
       });
     };
 
-    chrome.devtools.network.onRequestFinished.addListener(requestFinishedListener);
+    (chrome || browser).devtools.network.onRequestFinished.addListener(requestFinishedListener);
 
     const interval = setInterval(inspectForUpdatedPlayers, REFRESH_RATE);
 
     return () => {
-      chrome.devtools.network.onRequestFinished.removeListener(requestFinishedListener);
+      (chrome || browser).devtools.network.onRequestFinished.removeListener(requestFinishedListener);
       clearInterval(interval);
     };
   }, [inspectForUpdatedPlayers, REFRESH_RATE]);
