@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SegmentsList from './SegmentsList';
 import MatchingSegmentRequestsInfo from './MatchingSegmentRequestsInfo';
+import ThumbcoilPanel from './ThumbcoilPanel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -9,17 +10,15 @@ import Switch from '@material-ui/core/Switch';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 export default function SegmentsPanel(props) {
   const { player } = props;
   const [selectedPlaylistType, setSelectedPlaylistType] = useState('Main');
   const [showOnlyLoaded, setShowOnlyLoaded] = useState(true);
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(null);
-
-  useEffect(() => {
-    setSelectedPlaylistType('Main');
-    setSelectedSegmentIndex(null);
-  }, [player]);
+  const [displayMode, setDisplayMode] = useState('requestInfo');
 
   const handlePlaylistSelection = (event) => {
     setSelectedPlaylistType(event.target.value);
@@ -40,6 +39,12 @@ export default function SegmentsPanel(props) {
   const segmentsWithTimes = selectedPlaylist.segments.filter(
     (segment) => typeof segment.start === 'number' && typeof segment.end === 'number'
   );
+  const selectedSegment = typeof selectedSegmentIndex === 'number' ?
+    selectedPlaylist.segments[selectedSegmentIndex] : null;
+  const selectedSegmentContentRequest = selectedSegment ? player.contentRequests.find(
+    (contentRequest) => contentRequest.url === selectedSegment.resolvedUri) : null;
+  const selectedSegmentContent = selectedSegmentContentRequest ?
+    selectedSegmentContentRequest : null;
 
   return (
     <div>
@@ -77,11 +82,27 @@ export default function SegmentsPanel(props) {
             setSegmentSelection={setSegmentSelection}
           />
         </Box>
-        {typeof selectedSegmentIndex === 'number' && (
+        {selectedSegment && (
           <Box>
-            <MatchingSegmentRequestsInfo
-              segment={selectedPlaylist.segments[selectedSegmentIndex]}
-            />
+            <Box>
+              <ButtonGroup>
+                <Button onClick={() => { setDisplayMode('requestInfo'); }}>
+                  Request Info
+                </Button>
+                <Button onClick={() => { setDisplayMode('thumbcoil'); }}>
+                  Thumbcoil
+                </Button>
+              </ButtonGroup>
+            </Box>
+            {displayMode === 'requestInfo' &&
+              <MatchingSegmentRequestsInfo segment={selectedSegment} />
+            }
+            {displayMode === 'thumbcoil' &&
+              <ThumbcoilPanel
+                segmentDetails={selectedSegment}
+                segmentContent={selectedSegmentContent}
+              />
+            }
           </Box>
         )}
       </Box>

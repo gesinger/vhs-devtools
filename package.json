@@ -8,10 +8,12 @@
   "dependencies": {
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
+    "@videojs/vhs-utils": "^2.2.0",
     "react": "^16.13.1",
     "react-diff-viewer": "^3.1.1",
     "react-dom": "^16.13.1",
     "react-json-view": "^1.19.1",
+    "thumbcoil": "^1.2.3-hackweek2",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
