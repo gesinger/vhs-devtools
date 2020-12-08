@@ -39,6 +39,26 @@ export default function SettingsSelector(props) {
         label="Refresh Rate (s)"
         type="number"
       />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={settings.shouldSaveSourceRequests}
+            onChange={handleChanged('shouldSaveSourceRequests', 'checked')}
+            name="shouldSaveSourceRequests"
+          />
+        }
+        label="Save Source Requests"
+      />
+      <FormControlLabel
+        control={
+          <Switch
+            checked={settings.shouldSaveContentRequests}
+            onChange={handleChanged('shouldSaveContentRequests', 'checked')}
+            name="shouldSaveContentRequests"
+          />
+        }
+        label="Save Content Requests"
+      />
     </FormGroup>
   );
 }

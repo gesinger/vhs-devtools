@@ -40,7 +40,9 @@ let currentPlayers;
 export default function App(props) {
   const [settings, setSettings] = useState({
     refreshRate: DEFAULT_REFRESH_RATE,
-    isRefreshing: true
+    isRefreshing: true,
+    shouldSaveSourceRequests: false,
+    shouldSaveContentRequests: false
   });
   const [players, setPlayers] = useState([]);
   const [sourceRequests, setSourceRequests] = useState([]);
@@ -127,8 +129,12 @@ export default function App(props) {
           return;
         }
 
-        saveSourceRequest(request, response, result, player);
-        saveContentRequest(request, response, result, player);
+        if (settings.shouldSaveSourceRequests) {
+          saveSourceRequest(request, response, result, player);
+        }
+        if (settings.shouldSaveContentRequests) {
+          saveContentRequest(request, response, result, player);
+        }
       });
     };
 
