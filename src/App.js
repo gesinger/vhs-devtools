@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import SettingsSelector from './SettingsSelector.js'
 import PlayerNavigator from './PlayerNavigator.js'
 import getPlayers from './window-functions';
 import { mp4Inspector, tsInspector } from 'thumbcoil';
@@ -24,7 +25,8 @@ const stringToUint8Array = (string) => {
   return array;
 };
 
-const REFRESH_RATE = 1 * 1000;
+// 1 second
+const DEFAULT_REFRESH_RATE = 1;
 
 // TODO check colorscheme preferece
 const theme = createMuiTheme({
@@ -36,6 +38,10 @@ const theme = createMuiTheme({
 let currentPlayers;
 
 export default function App(props) {
+  const [settings, setSettings] = useState({
+    refreshRate: DEFAULT_REFRESH_RATE,
+    isRefreshing: true
+  });
   const [players, setPlayers] = useState([]);
   const [sourceRequests, setSourceRequests] = useState([]);
   const [contentRequests, setContentRequests] = useState([]);
@@ -104,6 +110,10 @@ export default function App(props) {
   };
 
   useEffect(() => {
+    if (!settings.isRefreshing) {
+      return;
+    }
+
     const requestFinishedListener = (result) => {
       if (!players.length) {
         return;
@@ -125,14 +135,19 @@ export default function App(props) {
     (chrome || browser).devtools.network.onRequestFinished.addListener(
       requestFinishedListener);
 
-    const interval = setInterval(inspectForUpdatedPlayers, REFRESH_RATE);
+    const interval = setInterval(inspectForUpdatedPlayers, settings.refreshRate * 1000);
 
     return () => {
       (chrome || browser).devtools.network.onRequestFinished.removeListener(
         requestFinishedListener);
       clearInterval(interval);
     };
-  }, [inspectForUpdatedPlayers, saveSourceRequest, saveContentRequest, REFRESH_RATE]);
+  }, [
+    inspectForUpdatedPlayers,
+    saveSourceRequest,
+    saveContentRequest,
+    settings
+  ]);
 
   if (!players.length) {
     return null;
@@ -161,6 +176,7 @@ export default function App(props) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <SettingsSelector setSettings={setSettings} settings={settings} />
       <PlayerNavigator players={currentPlayers} />
     </ThemeProvider>
   );
